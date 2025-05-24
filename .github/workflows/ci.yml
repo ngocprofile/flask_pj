@@ -1,30 +1,28 @@
-name: Flask CI
+name: Flask App CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [master]
   pull_request:
-    branches: [ main ]
+    branches: [master]
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Lấy mã nguồn
+    - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Thiết lập Python
-      uses: actions/setup-python@v5
+    - name: Set up Python
+      uses: actions/setup-python@v4
       with:
         python-version: '3.10'
 
-    - name: Cài đặt các thư viện
+    - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install pytest
-
-    - name: Chạy kiểm thử
+    - name: Run tests
       run: |
-        pytest
+        python -m unittest discover -s test
